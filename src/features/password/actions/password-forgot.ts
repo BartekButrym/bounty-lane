@@ -41,5 +41,7 @@ export const passwordForgot = async (
     return fromErrorToActionState(error, formData);
   }
 
+  console.log('passwordForgot');
+
   return toActionState('SUCCESS', 'Check your email for a reset link');
 };
