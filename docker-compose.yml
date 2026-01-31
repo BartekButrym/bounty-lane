@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: postgres
+    image: postgres:16
     container_name: ticket_bounty_postgres
     environment:
       POSTGRES_USER: postgres

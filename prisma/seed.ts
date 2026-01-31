@@ -1,7 +1,8 @@
 import { hash } from '@node-rs/argon2';
-import { PrismaClient, TicketStatus } from '@prisma/client';
 
-const prisma = new PrismaClient();
+import { prisma } from '@/lib/prisma';
+
+import { TicketStatus } from '../generated/prisma/enums';
 
 const users = [
   {
