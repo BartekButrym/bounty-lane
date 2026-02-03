@@ -2,8 +2,6 @@
 
 import { useActionState, useRef } from 'react';
 
-import { Ticket } from '@prisma/client';
-
 import {
   DatePicker,
   ImperativeHandleFromDatePicker,
@@ -17,6 +15,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { fromCent } from '@/utils/currency';
 
+import { Ticket } from '../../../../generated/prisma/client';
 import { upsertTicket } from '../actions/upsert-ticket';
 
 type TicketUpsertFormProps = { ticket?: Ticket };

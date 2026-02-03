@@ -1,6 +1,5 @@
 import Link from 'next/link';
 
-import { User as AuthUser } from '@prisma/client';
 import { Lock, LogOut, User } from 'lucide-react';
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -14,6 +13,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { signOut } from '@/features/auth/actions/sign-out';
 import { accountPasswordPath, accountProfilePath } from '@/path';
+
+import { User as AuthUser } from '../../../generated/prisma/client';
 
 type AccountDropdownProps = {
   user: AuthUser;

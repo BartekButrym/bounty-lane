@@ -2,7 +2,6 @@
 
 import { redirect } from 'next/navigation';
 
-import { Prisma } from '@prisma/client';
 import { z } from 'zod';
 
 import { setSessionCookie } from '@/auth/cookie';
@@ -17,6 +16,7 @@ import { prisma } from '@/lib/prisma';
 import { signInPath, ticketsPath } from '@/path';
 import { generateRandomToken } from '@/utils/crypto';
 
+import { Prisma } from '../../../../generated/prisma/client';
 import { sendEmailWelcome } from '../../password/email/send-email-welcome';
 import { getBaseUrl } from '../../password/utils/url';
 

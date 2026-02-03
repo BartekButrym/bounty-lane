@@ -2,8 +2,6 @@
 
 import { useActionState } from 'react';
 
-import { Comment } from '@prisma/client';
-
 import { FieldError } from '@/components/form/field-error';
 import { Form } from '@/components/form/form';
 import { SubmitButton } from '@/components/form/submit-button';
@@ -13,6 +11,7 @@ import {
 } from '@/components/form/utils/to-action-state';
 import { Textarea } from '@/components/ui/textarea';
 
+import { Comment } from '../../../../generated/prisma/client';
 import { upsertComment } from '../actions/upsert-comment';
 import { CommentWithMetadata } from '../types';
 

@@ -1,6 +1,5 @@
 'use client';
 
-import { Ticket, TicketStatus } from '@prisma/client';
 import { Trash } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -16,6 +15,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { TICKET_STATUS_LABELS } from '@/features/ticket/constants';
 
+import { Ticket, TicketStatus } from '../../../../generated/prisma/client';
 import { deleteTicket } from '../actions/delete-ticket';
 import { updateTicketStatus } from '../actions/update-ticket-status';
 

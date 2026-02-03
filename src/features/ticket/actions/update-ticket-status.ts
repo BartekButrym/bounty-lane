@@ -2,8 +2,6 @@
 
 import { revalidatePath } from 'next/cache';
 
-import { TicketStatus } from '@prisma/client';
-
 import { getAuthOrRedirect } from '@/auth/cookie';
 import { isOwner } from '@/auth/is-owner';
 import {
@@ -12,6 +10,8 @@ import {
 } from '@/components/form/utils/to-action-state';
 import { prisma } from '@/lib/prisma';
 import { ticketsPath } from '@/path';
+
+import { TicketStatus } from '../../../../generated/prisma/client';
 
 export const updateTicketStatus = async (id: string, status: TicketStatus) => {
   const { user } = await getAuthOrRedirect();
