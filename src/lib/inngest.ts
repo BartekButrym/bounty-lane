@@ -1,12 +1,9 @@
-import { EventSchemas, Inngest } from 'inngest';
+import { Inngest, eventType, staticSchema } from 'inngest';
 
 import { PasswordResetFunctionArgs } from '@/features/password/events/event-password-reset';
 
-type Events = {
-  'app/password.password-reset': PasswordResetFunctionArgs;
-};
+export const inngest = new Inngest({ id: 'bounty-lane' });
 
-export const inngest = new Inngest({
-  id: 'bounty-lane',
-  schemas: new EventSchemas().fromRecord<Events>(),
+export const resetPassword = eventType('app/password.password-reset', {
+  schema: staticSchema<PasswordResetFunctionArgs>(),
 });
