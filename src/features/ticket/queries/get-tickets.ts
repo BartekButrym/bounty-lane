@@ -1,5 +1,5 @@
 import { getAuth } from '@/auth/cookie';
-import { isOwner } from '@/auth/is-owner';
+import { isOwner } from '@/features/auth/utils/is-owner';
 import { prisma } from '@/lib/prisma';
 
 import { ParsedSearchParams } from '../search-params';

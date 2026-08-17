@@ -5,11 +5,11 @@ import { redirect } from 'next/navigation';
 
 import { setCookieByKey } from '@/actions/cookies';
 import { getAuthOrRedirect } from '@/auth/cookie';
-import { isOwner } from '@/auth/is-owner';
 import {
   fromErrorToActionState,
   toActionState,
 } from '@/components/form/utils/to-action-state';
+import { isOwner } from '@/features/auth/utils/is-owner';
 import { prisma } from '@/lib/prisma';
 import { ticketsPath } from '@/path';
 

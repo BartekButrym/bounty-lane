@@ -7,12 +7,12 @@ import { z } from 'zod';
 
 import { setCookieByKey } from '@/actions/cookies';
 import { getAuthOrRedirect } from '@/auth/cookie';
-import { isOwner } from '@/auth/is-owner';
 import {
   ActionState,
   fromErrorToActionState,
   toActionState,
 } from '@/components/form/utils/to-action-state';
+import { isOwner } from '@/features/auth/utils/is-owner';
 import { prisma } from '@/lib/prisma';
 import { ticketPath, ticketsPath } from '@/path';
 import { toCent } from '@/utils/currency';

@@ -12,6 +12,7 @@ import {
   fromErrorToActionState,
   toActionState,
 } from '@/components/form/utils/to-action-state';
+import { inngest } from '@/lib/inngest';
 import { prisma } from '@/lib/prisma';
 import { signInPath, ticketsPath } from '@/path';
 import { generateRandomToken } from '@/utils/crypto';
@@ -57,6 +58,13 @@ export const signUp = async (_actionState: ActionState, formData: FormData) => {
         username,
         email,
         passwordHash,
+      },
+    });
+
+    await inngest.send({
+      name: 'app/auth.sign-up',
+      data: {
+        userId: user.id,
       },
     });
 
