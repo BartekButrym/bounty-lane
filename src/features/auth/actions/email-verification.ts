@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
 import { setCookieByKey } from '@/actions/cookies';
-import { getAuthOrRedirect, setSessionCookie } from '@/auth/cookie';
+import { setSessionCookie } from '@/auth/cookie';
 import { createSession } from '@/auth/session';
 import {
   ActionState,
@@ -16,6 +16,7 @@ import { prisma } from '@/lib/prisma';
 import { ticketsPath } from '@/path';
 import { generateRandomToken } from '@/utils/crypto';
 
+import { getAuthOrRedirect } from '../queries/get-auth-or-redirect';
 import { validateEmailVerificationCode } from '../utils/validate-email-verification-code';
 
 const emailVerificationSchema = z.object({
@@ -28,6 +29,8 @@ export const emailVerification = async (
 ) => {
   const { user } = await getAuthOrRedirect({
     checkEmailVerified: false,
+    checkOrganization: false,
+    checkActiveOrganization: false,
   });
 
   try {

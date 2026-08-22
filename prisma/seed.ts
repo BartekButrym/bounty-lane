@@ -8,10 +8,12 @@ const users = [
   {
     username: 'admin',
     email: 'admin@mail.com',
+    emailVerified: true,
   },
   {
     username: 'user',
     email: 'rey@mail.com',
+    emailVerified: true,
   },
 ];
 
@@ -98,6 +100,14 @@ const seed = async () => {
   await prisma.comment.deleteMany();
   await prisma.user.deleteMany();
   await prisma.ticket.deleteMany();
+  await prisma.organization.deleteMany();
+  await prisma.membership.deleteMany();
+
+  const dbOrganization = await prisma.organization.create({
+    data: {
+      name: 'Organization 1',
+    },
+  });
 
   const passwordHash = await hash('1qazxsw2');
 
@@ -106,6 +116,14 @@ const seed = async () => {
       ...user,
       passwordHash,
     })),
+  });
+
+  await prisma.membership.create({
+    data: {
+      userId: dbUsers[0].id,
+      organizationId: dbOrganization.id,
+      isActive: true,
+    },
   });
 
   const dbTickets = await prisma.ticket.createManyAndReturn({

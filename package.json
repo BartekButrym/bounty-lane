@@ -14,7 +14,8 @@
     "migrate:prod": "dotenv -e .env.production -- prisma migrate deploy",
     "seed:dev": "dotenv -e .env.development -- tsx prisma/seed.ts",
     "seed:prod": "dotenv -e .env.production -- tsx prisma/seed.ts",
-    "email": "email dev --dir src/emails"
+    "email": "email dev --dir src/emails",
+    "inngest:dev": "npx inngest-cli@latest dev"
   },
   "dependencies": {
     "@node-rs/argon2": "^2.0.2",

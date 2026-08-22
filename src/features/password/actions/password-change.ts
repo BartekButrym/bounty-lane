@@ -2,13 +2,13 @@
 
 import { z } from 'zod';
 
-import { getAuthOrRedirect } from '@/auth/cookie';
 import { verifyPasswordHash } from '@/auth/password';
 import {
   ActionState,
   fromErrorToActionState,
   toActionState,
 } from '@/components/form/utils/to-action-state';
+import { getAuthOrRedirect } from '@/features/auth/queries/get-auth-or-redirect';
 import { inngest } from '@/lib/inngest';
 import { prisma } from '@/lib/prisma';
 

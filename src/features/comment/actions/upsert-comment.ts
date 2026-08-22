@@ -6,12 +6,12 @@ import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
 import { setCookieByKey } from '@/actions/cookies';
-import { getAuthOrRedirect } from '@/auth/cookie';
 import {
   ActionState,
   fromErrorToActionState,
   toActionState,
 } from '@/components/form/utils/to-action-state';
+import { getAuthOrRedirect } from '@/features/auth/queries/get-auth-or-redirect';
 import { isOwner } from '@/features/auth/utils/is-owner';
 import { prisma } from '@/lib/prisma';
 import { ticketPath } from '@/path';

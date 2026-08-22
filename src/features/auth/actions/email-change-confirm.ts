@@ -5,7 +5,6 @@ import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
 import { setCookieByKey } from '@/actions/cookies';
-import { getAuthOrRedirect } from '@/auth/cookie';
 import {
   ActionState,
   fromErrorToActionState,
@@ -15,6 +14,7 @@ import { prisma } from '@/lib/prisma';
 import { signInPath } from '@/path';
 
 import { Prisma } from '../../../../generated/prisma/client';
+import { getAuthOrRedirect } from '../queries/get-auth-or-redirect';
 import { validateEmailVerificationCode } from '../utils/validate-email-verification-code';
 
 const emailChangeConfirmSchema = z.object({

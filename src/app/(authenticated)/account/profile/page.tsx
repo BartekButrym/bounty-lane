@@ -1,8 +1,8 @@
-import { getAuthOrRedirect } from '@/auth/cookie';
 import { CardCompact } from '@/components/card-compact';
 import { Heading } from '@/components/heading';
 import { EmailChangeConfirmForm } from '@/features/auth/components/email-change-confirm-form';
 import { EmailChangeForm } from '@/features/auth/components/email-change-form';
+import { getAuthOrRedirect } from '@/features/auth/queries/get-auth-or-redirect';
 import { prisma } from '@/lib/prisma';
 
 import { AccountTabs } from '../_navigation/tabs';

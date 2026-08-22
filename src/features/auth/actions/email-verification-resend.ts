@@ -1,17 +1,19 @@
 'use server';
 
-import { getAuthOrRedirect } from '@/auth/cookie';
 import {
   fromErrorToActionState,
   toActionState,
 } from '@/components/form/utils/to-action-state';
 
 import { sendEmailVerification } from '../emails/send-email-verification';
+import { getAuthOrRedirect } from '../queries/get-auth-or-redirect';
 import { generateEmailVerificationCode } from '../utils/generate-email-verification-code';
 
 export const emailVerificationResend = async () => {
   const { user } = await getAuthOrRedirect({
     checkEmailVerified: false,
+    checkOrganization: false,
+    checkActiveOrganization: false,
   });
 
   try {

@@ -1,10 +1,7 @@
 'use server';
 
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
 import { cache } from 'react';
-
-import { emailVerificationPath, signInPath } from '@/path';
 
 import { SESSION_COOKIE_NAME } from './constants';
 import { validateSession } from './session';
@@ -54,23 +51,3 @@ export const getAuth = cache(async () => {
 
   return validateSession(sessionToken);
 });
-
-type GetAuthOrRedirectOptions = {
-  checkEmailVerified?: boolean;
-};
-
-export const getAuthOrRedirect = async (options?: GetAuthOrRedirectOptions) => {
-  const { checkEmailVerified = true } = options ?? {};
-
-  const auth = await getAuth();
-
-  if (!auth.user) {
-    redirect(signInPath());
-  }
-
-  if (checkEmailVerified && !auth.user.emailVerified) {
-    redirect(emailVerificationPath());
-  }
-
-  return auth;
-};

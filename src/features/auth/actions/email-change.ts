@@ -4,7 +4,6 @@ import { revalidatePath } from 'next/cache';
 
 import { z } from 'zod';
 
-import { getAuthOrRedirect } from '@/auth/cookie';
 import {
   ActionState,
   fromErrorToActionState,
@@ -14,6 +13,7 @@ import { inngest } from '@/lib/inngest';
 import { prisma } from '@/lib/prisma';
 import { accountProfilePath } from '@/path';
 
+import { getAuthOrRedirect } from '../queries/get-auth-or-redirect';
 import { generateEmailVerificationCode } from '../utils/generate-email-verification-code';
 
 const emailChangeSchema = z.object({

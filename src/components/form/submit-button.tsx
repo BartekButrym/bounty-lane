@@ -30,11 +30,12 @@ export const SubmitButton = ({
 
   return (
     <Button disabled={pending} type="submit" variant={variant} size={size}>
-      {pending && <LoaderCircle className="h-4 w-4 animate-spin" />}
-      {label}
-      {pending ? null : icon ? (
-        <span>{cloneElement(icon, { className: 'h-4 w-4' })}</span>
+      {pending ? (
+        <LoaderCircle className="h-4 w-4 animate-spin" />
+      ) : icon ? (
+        <>{cloneElement(icon, { className: 'h-4 w-4' })}</>
       ) : null}
+      {label}
     </Button>
   );
 };
