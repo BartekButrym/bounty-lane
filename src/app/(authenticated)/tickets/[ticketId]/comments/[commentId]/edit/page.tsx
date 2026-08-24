@@ -1,9 +1,9 @@
 import { notFound } from 'next/navigation';
 
-import { getAuth } from '@/auth/cookie';
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import { CardCompact } from '@/components/card-compact';
 import { Separator } from '@/components/ui/separator';
+import { getAuth } from '@/features/auth/queries/get-auth';
 import { isOwner } from '@/features/auth/utils/is-owner';
 import { CommentUpsertForm } from '@/features/comment/components/comment-upsert-form';
 import { getComment } from '@/features/comment/queries/get-comment';

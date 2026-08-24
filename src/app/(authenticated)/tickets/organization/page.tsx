@@ -5,32 +5,34 @@ import { SearchParams } from 'nuqs/server';
 import { CardCompact } from '@/components/card-compact';
 import { Heading } from '@/components/heading';
 import { Spinner } from '@/components/spinner';
-import { getAuth } from '@/features/auth/queries/get-auth';
 import { TicketList } from '@/features/ticket/components/ticket-list';
 import { TicketUpsertForm } from '@/features/ticket/components/ticket-upsert-form';
 import { searchParamsCache } from '@/features/ticket/search-params';
 
-type TicketsPageProps = {
+type TicketsByOrganizationPageProps = {
   searchParams: Promise<SearchParams>;
 };
 
-const TicketsPage = async ({ searchParams }: TicketsPageProps) => {
-  const { user } = await getAuth();
-
+const TicketsByOrganizationPage = async ({
+  searchParams,
+}: TicketsByOrganizationPageProps) => {
   return (
     <div className="flex-1 flex flex-col gap-y-8">
-      <Heading title="My Tickets" description="All your tickets at one place" />
+      <Heading
+        title="Our Tickets"
+        description="All tickets related to my organization"
+      />
 
       <CardCompact
         title="Create Ticket"
         description="A new ticket will be created"
-        content={<TicketUpsertForm />}
         className="w-full max-w-[420px] self-center"
+        content={<TicketUpsertForm />}
       />
 
       <Suspense fallback={<Spinner />}>
         <TicketList
-          userId={user?.id}
+          byOrganization
           searchParams={searchParamsCache.parse(await searchParams)}
         />
       </Suspense>
@@ -38,4 +40,4 @@ const TicketsPage = async ({ searchParams }: TicketsPageProps) => {
   );
 };
 
-export default TicketsPage;
+export default TicketsByOrganizationPage;

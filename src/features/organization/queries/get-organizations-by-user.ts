@@ -1,4 +1,4 @@
-import { getAuth } from '@/auth/cookie';
+import { getAuth } from '@/features/auth/queries/get-auth';
 import { prisma } from '@/lib/prisma';
 
 export const getOrganizationsByUser = async () => {

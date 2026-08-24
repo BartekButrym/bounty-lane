@@ -29,7 +29,7 @@ export const upsertTicket = async (
   _actionState: ActionState,
   formData: FormData
 ) => {
-  const { user } = await getAuthOrRedirect();
+  const { user, activeOrganization } = await getAuthOrRedirect();
 
   try {
     if (id) {
@@ -60,7 +60,7 @@ export const upsertTicket = async (
     await prisma.ticket.upsert({
       where: { id: id || '' },
       update: dbData,
-      create: dbData,
+      create: { ...dbData, organizationId: activeOrganization!.id },
     });
   } catch (error) {
     return fromErrorToActionState(error, formData);

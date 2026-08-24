@@ -1,9 +1,16 @@
-import { Book, CircleUser, Library, LucideUsers } from 'lucide-react';
+import {
+  Book,
+  CircleUser,
+  Library,
+  LucideBookCopy,
+  LucideUsers,
+} from 'lucide-react';
 
 import {
   accountProfilePath,
   homePath,
   organizationsPath,
+  ticketsByOrganizationPath,
   ticketsPath,
 } from '@/path';
 
@@ -19,6 +26,11 @@ export const navItems: NavItem[] = [
     title: 'My Tickets',
     icon: <Book />,
     href: ticketsPath(),
+  },
+  {
+    title: 'Our Tickets',
+    icon: <LucideBookCopy />,
+    href: ticketsByOrganizationPath(),
   },
   {
     separator: true,

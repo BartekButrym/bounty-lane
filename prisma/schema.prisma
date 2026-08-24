@@ -13,6 +13,7 @@ model Organization {
   updatedAt   DateTime     @updatedAt
   name        String
   memberships Membership[]
+  tickets     Ticket[]
 }
 
 model Membership {
@@ -79,19 +80,22 @@ model Session {
 }
 
 model Ticket {
-  id        String       @id @default(cuid())
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
-  title     String
-  content   String       @db.VarChar(1024)
-  status    TicketStatus @default(OPEN)
-  deadline  String
-  bounty    Int
-  userId    String
-  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  comments  Comment[]
+  id             String       @id @default(cuid())
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  title          String
+  content        String       @db.VarChar(1024)
+  status         TicketStatus @default(OPEN)
+  deadline       String
+  bounty         Int
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comments       Comment[]
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId String
 
   @@index([userId])
+  @@index([organizationId])
 }
 
 enum TicketStatus {

@@ -1,10 +1,8 @@
 'use server';
 
 import { cookies } from 'next/headers';
-import { cache } from 'react';
 
 import { SESSION_COOKIE_NAME } from './constants';
-import { validateSession } from './session';
 
 export const setSessionCookie = async (
   sessionToken: string,
@@ -40,14 +38,3 @@ export const deleteSessionCookie = async () => {
 
   (await cookies()).set(cookie.name, cookie.value, cookie.attributes);
 };
-
-export const getAuth = cache(async () => {
-  const sessionToken =
-    (await cookies()).get(SESSION_COOKIE_NAME)?.value ?? null;
-
-  if (!sessionToken) {
-    return { session: null, user: null };
-  }
-
-  return validateSession(sessionToken);
-});
