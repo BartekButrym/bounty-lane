@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import { format } from 'date-fns';
 import {
   LucideArrowLeftRight,
@@ -15,6 +17,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { MembershipDeleteButton } from '@/features/memberships/components/membership-delete-button';
+import { membershipsPath } from '@/path';
 
 import { getOrganizationsByUser } from '../queries/get-organizations-by-user';
 import { OrganizationDeleteButton } from './organization-delete-button';
@@ -41,12 +45,15 @@ export const OrganizationList = async ({
           <TableHead>Name</TableHead>
           <TableHead>Joined at</TableHead>
           <TableHead>Members</TableHead>
+          <TableHead>My Role</TableHead>
           <TableHead />
         </TableRow>
       </TableHeader>
       <TableBody>
         {organizations.map((organization) => {
           const isActive = organization.membershipByUser.isActive;
+          const isAdmin =
+            organization.membershipByUser.membershipRole === 'ADMIN';
 
           const switchButton = (
             <OrganizationSwitchButton
@@ -66,8 +73,10 @@ export const OrganizationList = async ({
           );
 
           const detailButton = (
-            <Button variant="outline" size="icon">
-              <LucideArrowUpRightFromSquare className="w-4 h-4" />
+            <Button variant="outline" size="icon" asChild>
+              <Link href={membershipsPath(organization.id)}>
+                <LucideArrowUpRightFromSquare className="w-4 h-4" />
+              </Link>
             </Button>
           );
 
@@ -77,16 +86,28 @@ export const OrganizationList = async ({
             </Button>
           );
 
+          const leaveButton = (
+            <MembershipDeleteButton
+              organizationId={organization.id}
+              userId={organization.membershipByUser.userId}
+            />
+          );
+
           const deleteButton = (
             <OrganizationDeleteButton organizationId={organization.id} />
+          );
+
+          const placeholder = (
+            <Button size="icon" disabled className="disabled:opacity-0" />
           );
 
           const buttons = (
             <>
               {switchButton}
-              {limitedAccess ? null : detailButton}
-              {limitedAccess ? null : editButton}
-              {limitedAccess ? null : deleteButton}
+              {limitedAccess ? null : isAdmin ? detailButton : placeholder}
+              {limitedAccess ? null : isAdmin ? editButton : placeholder}
+              {limitedAccess ? null : leaveButton}
+              {limitedAccess ? null : isAdmin ? deleteButton : placeholder}
             </>
           );
 
@@ -101,6 +122,9 @@ export const OrganizationList = async ({
                 )}
               </TableCell>
               <TableCell>{organization._count.memberships}</TableCell>
+              <TableCell>
+                {organization.membershipByUser.membershipRole}
+              </TableCell>
               <TableCell className="flex justify-end gap-x-2">
                 {buttons}
               </TableCell>
