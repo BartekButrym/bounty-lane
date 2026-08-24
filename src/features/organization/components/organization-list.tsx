@@ -4,7 +4,6 @@ import { format } from 'date-fns';
 import {
   LucideArrowLeftRight,
   LucideArrowUpRightFromSquare,
-  LucidePen,
 } from 'lucide-react';
 
 import { SubmitButton } from '@/components/form/submit-button';
@@ -22,6 +21,7 @@ import { membershipsPath } from '@/path';
 
 import { getOrganizationsByUser } from '../queries/get-organizations-by-user';
 import { OrganizationDeleteButton } from './organization-delete-button';
+import { OrganizationEditButton } from './organization-edit-button';
 import { OrganizationSwitchButton } from './organization-switch-button';
 
 type OrganizationListProps = {
@@ -81,9 +81,10 @@ export const OrganizationList = async ({
           );
 
           const editButton = (
-            <Button variant="outline" size="icon">
-              <LucidePen className="w-4 h-4" />
-            </Button>
+            <OrganizationEditButton
+              organizationId={organization.id}
+              name={organization.name}
+            />
           );
 
           const leaveButton = (
