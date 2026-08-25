@@ -26,6 +26,10 @@ model Membership {
   isActive       Boolean
   membershipRole MembershipRole @default(MEMBER)
 
+  // permissions
+  canDeleteTicket Boolean @default(true)
+  canUpdateTicket Boolean @default(true)
+
   @@id(name: "membershipId", [organizationId, userId])
   @@index([organizationId])
   @@index([userId])

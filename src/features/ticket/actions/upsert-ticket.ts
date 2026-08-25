@@ -17,6 +17,8 @@ import { prisma } from '@/lib/prisma';
 import { ticketPath, ticketsPath } from '@/path';
 import { toCent } from '@/utils/currency';
 
+import { getTicketPermissions } from '../permissions/get-ticket-permissions';
+
 const upsertTicketSchema = z.object({
   title: z.string().min(1).max(191),
   content: z.string().min(1).max(1024),
@@ -40,6 +42,15 @@ export const upsertTicket = async (
       });
 
       if (!ticket || !isOwner(user, ticket)) {
+        return toActionState('ERROR', 'Not authorized');
+      }
+
+      const permissions = await getTicketPermissions({
+        organizationId: ticket.organizationId,
+        userId: user.id,
+      });
+
+      if (!permissions.canUpdateTicket) {
         return toActionState('ERROR', 'Not authorized');
       }
     }

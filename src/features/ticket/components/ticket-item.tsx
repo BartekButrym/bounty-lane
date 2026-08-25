@@ -11,6 +11,11 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { TICKET_ICONS } from '@/features/ticket/constants';
 import { ticketEditPath, ticketPath } from '@/path';
 import { toCurrencyFromCent } from '@/utils/currency';
@@ -37,12 +42,27 @@ export const TicketItem = async ({
     </Button>
   );
 
-  const editButton = ticket.isOwner ? (
+  const canUpdateTicket = ticket.permissions.canUpdateTicket;
+
+  const editButton = canUpdateTicket ? (
     <Button asChild size="icon" variant="outline">
       <Link prefetch href={ticketEditPath(ticket.id)}>
         <Pencil className="h-4 w-4" />
       </Link>
     </Button>
+  ) : ticket.isOwner ? (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <span tabIndex={0}>
+          <Button size="icon" variant="outline" disabled>
+            <Pencil className="h-4 w-4" />
+          </Button>
+        </span>
+      </TooltipTrigger>
+      <TooltipContent>
+        You do not have permission to edit this ticket.
+      </TooltipContent>
+    </Tooltip>
   ) : null;
 
   const moreMenu = ticket.isOwner ? (

@@ -19,7 +19,11 @@ const TicketEditPage = async ({ params }: TicketEditPageProps) => {
 
   const isTicketFound = !!ticket;
 
-  if (!isTicketFound || !ticket.isOwner) {
+  if (
+    !isTicketFound ||
+    !ticket.isOwner ||
+    !ticket.permissions.canUpdateTicket
+  ) {
     notFound();
   }
 

@@ -13,27 +13,48 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { TICKET_STATUS_LABELS } from '@/features/ticket/constants';
 
-import { Ticket, TicketStatus } from '../../../../generated/prisma/client';
+import { TicketStatus } from '../../../../generated/prisma/client';
 import { deleteTicket } from '../actions/delete-ticket';
 import { updateTicketStatus } from '../actions/update-ticket-status';
+import { TicketWithMetadata } from '../types';
 
 type TicketMoreMenuProps = {
-  ticket: Ticket;
+  ticket: TicketWithMetadata;
   trigger: React.ReactNode;
 };
 
 export const TicketMoreMenu = ({ ticket, trigger }: TicketMoreMenuProps) => {
+  const canDeleteTicket = ticket.permissions.canDeleteTicket;
+
   const [deleteButton, deleteDialog] = useConfirmDialog({
     action: deleteTicket.bind(null, ticket.id),
     trigger: (
-      <DropdownMenuItem>
+      <DropdownMenuItem disabled={!canDeleteTicket}>
         <Trash className="h-4 w-4" />
         <span>Delete</span>
       </DropdownMenuItem>
     ),
   });
+
+  const deleteMenuItem = canDeleteTicket ? (
+    deleteButton
+  ) : (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <span tabIndex={0}>{deleteButton}</span>
+      </TooltipTrigger>
+      <TooltipContent>
+        You do not have permission to delete this ticket.
+      </TooltipContent>
+    </Tooltip>
+  );
 
   const handleUpdateTicketStatus = async (value: string) => {
     const promise = updateTicketStatus(ticket.id, value as TicketStatus);
@@ -73,7 +94,7 @@ export const TicketMoreMenu = ({ ticket, trigger }: TicketMoreMenuProps) => {
         <DropdownMenuContent side="right" className="w-56">
           {ticketStatusRadioGroupItems}
           <DropdownMenuSeparator />
-          {deleteButton}
+          {deleteMenuItem}
         </DropdownMenuContent>
       </DropdownMenu>
     </>
