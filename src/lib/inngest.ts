@@ -2,6 +2,7 @@ import { Inngest, eventType, staticSchema } from 'inngest';
 
 import { EmailChangeEventArgs } from '@/features/auth/events/event-email-change';
 import { EmailVerificationEventArgs } from '@/features/auth/events/event-email-verification';
+import { InvitationCreateEventArgs } from '@/features/invitation/events/event-invitation-created';
 import { PasswordResetFunctionArgs } from '@/features/password/events/event-password-reset';
 
 export const inngest = new Inngest({ id: 'bounty-lane' });
@@ -16,4 +17,8 @@ export const verifyEmail = eventType('app/auth.sign-up', {
 
 export const changeEmail = eventType('app/auth.email-change', {
   schema: staticSchema<EmailChangeEventArgs>(),
+});
+
+export const createEmailInvitation = eventType('app/invitation.created', {
+  schema: staticSchema<InvitationCreateEventArgs>(),
 });

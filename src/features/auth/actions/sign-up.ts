@@ -16,10 +16,10 @@ import { inngest } from '@/lib/inngest';
 import { prisma } from '@/lib/prisma';
 import { signInPath, ticketsPath } from '@/path';
 import { generateRandomToken } from '@/utils/crypto';
+import { getBaseUrl } from '@/utils/url';
 
 import { Prisma } from '../../../../generated/prisma/client';
 import { sendEmailWelcome } from '../../password/email/send-email-welcome';
-import { getBaseUrl } from '../../password/utils/url';
 
 const signUpSchema = z
   .object({
@@ -60,6 +60,29 @@ export const signUp = async (_actionState: ActionState, formData: FormData) => {
         passwordHash,
       },
     });
+
+    const invitations = await prisma.invitation.findMany({
+      where: {
+        email,
+        status: 'ACCEPTED_WITHOUT_ACCOUNT',
+      },
+    });
+
+    await prisma.$transaction([
+      prisma.invitation.deleteMany({
+        where: {
+          email,
+        },
+      }),
+      prisma.membership.createMany({
+        data: invitations.map((invitation) => ({
+          organizationId: invitation.organizationId,
+          userId: user.id,
+          membershipRole: 'MEMBER',
+          isActive: false,
+        })),
+      }),
+    ]);
 
     await inngest.send({
       name: 'app/auth.sign-up',
