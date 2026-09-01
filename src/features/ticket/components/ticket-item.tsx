@@ -26,12 +26,14 @@ import { TicketMoreMenu } from './ticket-more-menu';
 type TicketItemProps = {
   ticket: TicketWithMetadata;
   isDetail?: boolean;
+  attachments?: React.ReactNode;
   comments?: React.ReactNode;
 };
 
 export const TicketItem = async ({
   ticket,
   isDetail,
+  attachments,
   comments,
 }: TicketItemProps) => {
   const detailButton = (
@@ -123,6 +125,7 @@ export const TicketItem = async ({
           )}
         </div>
       </div>
+      {attachments}
       {comments}
     </div>
   );

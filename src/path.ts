@@ -31,3 +31,6 @@ export const ticketEditPath = (ticketId: string) => `/tickets/${ticketId}/edit`;
 
 export const commentEditPath = (ticketId: string, commentId: string) =>
   `/tickets/${ticketId}/comments/${commentId}/edit`;
+
+export const attachmentDownloadPath = (attachmentId: string) =>
+  `/api/aws/s3/attachments/${attachmentId}`;

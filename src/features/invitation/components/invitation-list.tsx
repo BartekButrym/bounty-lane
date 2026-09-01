@@ -1,8 +1,6 @@
 import { format } from 'date-fns';
-import { LucideTrash } from 'lucide-react';
 
 import { Placeholder } from '@/components/placeholder';
-import { Button } from '@/components/ui/button';
 import {
   Table,
   TableBody,
@@ -13,6 +11,7 @@ import {
 } from '@/components/ui/table';
 
 import { getInvitations } from '../queries/get-invitations';
+import { InvitationDeleteButton } from './invitation-delete-button';
 
 type InvitationListProps = {
   organizationId: string;
@@ -38,9 +37,10 @@ const InvitationList = async ({ organizationId }: InvitationListProps) => {
       <TableBody>
         {invitations.map((invitation) => {
           const deleteButton = (
-            <Button variant="destructive" size="icon">
-              <LucideTrash className="w-4 h-4" />
-            </Button>
+            <InvitationDeleteButton
+              email={invitation.email}
+              organizationId={invitation.organizationId}
+            />
           );
 
           const buttons = <>{deleteButton}</>;

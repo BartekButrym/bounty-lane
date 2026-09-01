@@ -33,6 +33,7 @@ model Invitation {
   invitedByUserId String?
   status          InvitationStatus @default(PENDING)
 
+  @@id(name: "invitationId", [organizationId, email])
   @@index([organizationId])
 }
 
@@ -104,6 +105,12 @@ model Session {
   @@index([userId])
 }
 
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  DONE
+}
+
 model Ticket {
   id             String       @id @default(cuid())
   createdAt      DateTime     @default(now())
@@ -118,15 +125,19 @@ model Ticket {
   comments       Comment[]
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   organizationId String
+  attachments    Attachment[]
 
   @@index([userId])
   @@index([organizationId])
 }
 
-enum TicketStatus {
-  OPEN
-  IN_PROGRESS
-  DONE
+model Attachment {
+  id       String @id @default(cuid())
+  name     String
+  ticket   Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  ticketId String
+
+  @@index([ticketId])
 }
 
 model Comment {

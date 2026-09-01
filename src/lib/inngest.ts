@@ -1,5 +1,6 @@
 import { Inngest, eventType, staticSchema } from 'inngest';
 
+import { AttachmentDeleteEventArgs } from '@/features/attachments/events/event-attachment-deleted';
 import { EmailChangeEventArgs } from '@/features/auth/events/event-email-change';
 import { EmailVerificationEventArgs } from '@/features/auth/events/event-email-verification';
 import { InvitationCreateEventArgs } from '@/features/invitation/events/event-invitation-created';
@@ -21,4 +22,8 @@ export const changeEmail = eventType('app/auth.email-change', {
 
 export const createEmailInvitation = eventType('app/invitation.created', {
   schema: staticSchema<InvitationCreateEventArgs>(),
+});
+
+export const deleteAttachment = eventType('app/attachment.deleted', {
+  schema: staticSchema<AttachmentDeleteEventArgs>(),
 });
