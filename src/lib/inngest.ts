@@ -4,7 +4,9 @@ import { AttachmentDeleteEventArgs } from '@/features/attachments/events/event-a
 import { EmailChangeEventArgs } from '@/features/auth/events/event-email-change';
 import { EmailVerificationEventArgs } from '@/features/auth/events/event-email-verification';
 import { InvitationCreateEventArgs } from '@/features/invitation/events/event-invitation-created';
+import { OrganizationDeletedEventArgs } from '@/features/organization/events/event-organization-deleted';
 import { PasswordResetFunctionArgs } from '@/features/password/events/event-password-reset';
+import { TicketDeletedEventArgs } from '@/features/ticket/events/event-ticket-deleted';
 
 export const inngest = new Inngest({ id: 'bounty-lane' });
 
@@ -26,4 +28,12 @@ export const createEmailInvitation = eventType('app/invitation.created', {
 
 export const deleteAttachment = eventType('app/attachment.deleted', {
   schema: staticSchema<AttachmentDeleteEventArgs>(),
+});
+
+export const deleteOrganizationFiles = eventType('app/organization.deleted', {
+  schema: staticSchema<OrganizationDeletedEventArgs>(),
+});
+
+export const deleteTicketFiles = eventType('app/ticket.deleted', {
+  schema: staticSchema<TicketDeletedEventArgs>(),
 });

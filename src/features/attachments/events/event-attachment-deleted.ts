@@ -14,11 +14,11 @@ export type AttachmentDeleteEventArgs = {
 
 export const attachmentDeletedEvent = inngest.createFunction(
   { id: 'attachment-deleted', triggers: [deleteAttachment] },
-  async ({ event }) => {
+  async ({ event, step }) => {
     const { organizationId, ticketId, fileName, attachmentId } = event.data;
 
-    try {
-      await s3.send(
+    await step.run('delete-s3-file', () =>
+      s3.send(
         new DeleteObjectCommand({
           Bucket: process.env.AWS_BUCKET_NAME,
           Key: generateS3Key({
@@ -28,11 +28,8 @@ export const attachmentDeletedEvent = inngest.createFunction(
             attachmentId,
           }),
         })
-      );
-    } catch (error) {
-      console.log(error);
-      return { event, body: false };
-    }
+      )
+    );
 
     return { event, body: true };
   }

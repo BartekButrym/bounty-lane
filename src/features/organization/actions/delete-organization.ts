@@ -5,6 +5,7 @@ import {
   toActionState,
 } from '@/components/form/utils/to-action-state';
 import { getAdminOrRedirect } from '@/features/memberships/queries/get-admin-or-redirect';
+import { inngest } from '@/lib/inngest';
 import { prisma } from '@/lib/prisma';
 
 import { getOrganizationsByUser } from '../queries/get-organizations-by-user';
@@ -28,6 +29,15 @@ export const deleteOrganization = async (organizationId: string) => {
         id: organizationId,
       },
     });
+
+    try {
+      await inngest.send({
+        name: 'app/organization.deleted',
+        data: { organizationId },
+      });
+    } catch (error) {
+      console.error(error);
+    }
   } catch (error) {
     return fromErrorToActionState(error);
   }

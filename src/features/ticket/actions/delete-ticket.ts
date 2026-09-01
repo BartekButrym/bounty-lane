@@ -10,6 +10,7 @@ import {
 } from '@/components/form/utils/to-action-state';
 import { getAuthOrRedirect } from '@/features/auth/queries/get-auth-or-redirect';
 import { isOwner } from '@/features/auth/utils/is-owner';
+import { inngest } from '@/lib/inngest';
 import { prisma } from '@/lib/prisma';
 import { ticketsPath } from '@/path';
 
@@ -39,6 +40,18 @@ export const deleteTicket = async (id: string) => {
     await prisma.ticket.delete({
       where: { id },
     });
+
+    try {
+      await inngest.send({
+        name: 'app/ticket.deleted',
+        data: {
+          organizationId: ticket.organizationId,
+          ticketId: id,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
   } catch (error) {
     return fromErrorToActionState(error);
   }
