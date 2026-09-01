@@ -1,5 +1,7 @@
 'use server';
 
+import { randomUUID } from 'crypto';
+
 import { revalidatePath } from 'next/cache';
 
 import { PutObjectCommand } from '@aws-sdk/client-s3';
@@ -64,13 +66,7 @@ export const createAttachments = async (
 
     for (const file of files) {
       const buffer = await Buffer.from(await file.arrayBuffer());
-
-      const attachment = await prisma.attachment.create({
-        data: {
-          name: file.name,
-          ticketId,
-        },
-      });
+      const attachmentId = randomUUID();
 
       await s3.send(
         new PutObjectCommand({
@@ -79,12 +75,20 @@ export const createAttachments = async (
             organizationId: ticket.organizationId,
             ticketId,
             fileName: file.name,
-            attachmentId: attachment.id,
+            attachmentId,
           }),
           Body: buffer,
           ContentType: file.type,
         })
       );
+
+      await prisma.attachment.create({
+        data: {
+          id: attachmentId,
+          name: file.name,
+          ticketId,
+        },
+      });
     }
   } catch (error) {
     console.log(error);
