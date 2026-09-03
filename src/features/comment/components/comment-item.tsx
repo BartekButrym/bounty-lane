@@ -1,15 +1,26 @@
+import { ReactNode } from 'react';
+
 import { format } from 'date-fns';
 
 import { Card } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 
 import { CommentWithMetadata } from '../types';
 
 type CommentItemProps = {
   comment: CommentWithMetadata;
+  sections: {
+    label: string;
+    content: ReactNode;
+  }[];
   buttons: React.ReactNode[];
 };
 
-export const CommentItem = ({ comment, buttons }: CommentItemProps) => {
+export const CommentItem = ({
+  comment,
+  sections,
+  buttons,
+}: CommentItemProps) => {
   return (
     <div className="flex gap-x-2">
       <Card className="p-4 flex-1 flex flex-col gap-y-1">
@@ -22,6 +33,14 @@ export const CommentItem = ({ comment, buttons }: CommentItemProps) => {
           </p>
         </div>
         <p className="whitespace-pre-line">{comment.content}</p>
+
+        {sections.map((section) => (
+          <div key={section.label} className="space-y-2 mt-2">
+            <Separator />
+            <h4 className="text-sm text-muted-foreground">{section.label}</h4>
+            <div>{section.content}</div>
+          </div>
+        ))}
       </Card>
 
       <div className="flex flex-col gap-y-1">{buttons}</div>

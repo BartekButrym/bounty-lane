@@ -1,6 +1,6 @@
 'use client';
 
-import { useActionState, useEffect, useRef, useState } from 'react';
+import { ReactNode, useActionState, useEffect, useRef, useState } from 'react';
 
 import { FieldError } from '@/components/form/field-error';
 import { Form } from '@/components/form/form';
@@ -9,11 +9,15 @@ import { EMPTY_ACTION_STATE } from '@/components/form/utils/to-action-state';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
+import { AttachmentEntity } from '../../../../generated/prisma/client';
 import { createAttachments } from '../actions/create-attachments';
 import { ACCEPTED, PREVIEWABLE_IMAGE_TYPES } from '../constants';
 
 type AttachmentCreateFormProps = {
-  ticketId: string;
+  entityId: string;
+  entity: AttachmentEntity;
+  buttons?: ReactNode;
+  onSuccess?: () => void;
 };
 
 type PendingFile = {
@@ -29,9 +33,14 @@ const revokePreviewUrls = (files: PendingFile[]) => {
   });
 };
 
-const AttachmentCreateForm = ({ ticketId }: AttachmentCreateFormProps) => {
+const AttachmentCreateForm = ({
+  entityId,
+  entity,
+  buttons,
+  onSuccess,
+}: AttachmentCreateFormProps) => {
   const [actionState, action] = useActionState(
-    createAttachments.bind(null, ticketId),
+    createAttachments.bind(null, { entityId, entity }),
     EMPTY_ACTION_STATE
   );
 
@@ -83,6 +92,8 @@ const AttachmentCreateForm = ({ ticketId }: AttachmentCreateFormProps) => {
   };
 
   const handleSuccess = () => {
+    if (onSuccess) onSuccess?.();
+
     revokePreviewUrls(pendingFiles);
     setPendingFiles([]);
   };
@@ -138,7 +149,7 @@ const AttachmentCreateForm = ({ ticketId }: AttachmentCreateFormProps) => {
         </ul>
       )}
 
-      <SubmitButton label="Upload" />
+      {buttons || <SubmitButton label="Upload" />}
     </Form>
   );
 };

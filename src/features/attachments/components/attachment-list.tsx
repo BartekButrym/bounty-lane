@@ -1,0 +1,26 @@
+import { ReactNode } from 'react';
+
+import { Attachment } from '../../../../generated/prisma/client';
+import { AttachmentItem } from './attachment-item';
+
+type AttachmentListProps = {
+  attachments: Attachment[];
+  buttons: (id: string) => ReactNode[];
+};
+
+export const AttachmentList = ({
+  attachments,
+  buttons,
+}: AttachmentListProps) => {
+  return (
+    <div className="mx-2 flex flex-col gap-y-2 mb-4">
+      {attachments.map((attachment) => (
+        <AttachmentItem
+          key={attachment.id}
+          attachment={attachment}
+          buttons={buttons(attachment.id)}
+        />
+      ))}
+    </div>
+  );
+};
