@@ -11,10 +11,9 @@ import {
 } from '@/components/form/utils/to-action-state';
 import { getAdminOrRedirect } from '@/features/memberships/queries/get-admin-or-redirect';
 import { inngest } from '@/lib/inngest';
-import { prisma } from '@/lib/prisma';
 import { invitationsPath } from '@/path';
 
-import { generateInvitationLink } from '../utils/generate-invitation-link';
+import * as invitationService from '../service';
 
 const createInvitationSchema = z.object({
   email: z.string().min(1, { message: 'Is required' }).max(191).email(),
@@ -32,27 +31,11 @@ export const createInvitation = async (
       email: formData.get('email'),
     });
 
-    const targetMembership = await prisma.membership.findFirst({
-      where: {
-        organizationId,
-        user: {
-          email,
-        },
-      },
-    });
-
-    if (targetMembership) {
-      return toActionState(
-        'ERROR',
-        'User is already a member of this organization'
-      );
-    }
-
-    const emailInvitationLink = await generateInvitationLink(
-      user.id,
+    const emailInvitationLink = await invitationService.createInvitation({
+      invitedByUserId: user.id,
       organizationId,
-      email
-    );
+      email,
+    });
 
     await inngest.send({
       name: 'app/invitation.created',

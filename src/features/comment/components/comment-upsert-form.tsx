@@ -9,7 +9,9 @@ import {
   ActionState,
   EMPTY_ACTION_STATE,
 } from '@/components/form/utils/to-action-state';
+import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { ACCEPTED } from '@/features/attachments/constants';
 
 import { Comment } from '../../../../generated/prisma/client';
 import { upsertComment } from '../actions/upsert-comment';
@@ -21,7 +23,7 @@ type CommentUpsertFormProps = {
   onCreateComment?: (comment: CommentWithMetadata | undefined) => void;
 };
 
-const CommentUpsertForm = ({
+export const CommentUpsertForm = ({
   ticketId,
   comment,
   onCreateComment,
@@ -48,9 +50,16 @@ const CommentUpsertForm = ({
       />
       <FieldError name="content" actionState={actionState} />
 
+      <Input
+        name="files"
+        id="files"
+        type="file"
+        multiple
+        accept={ACCEPTED.join(',')}
+      />
+      <FieldError actionState={actionState} name="files" />
+
       <SubmitButton label={comment ? 'Update' : 'Comment'} />
     </Form>
   );
 };
-
-export { CommentUpsertForm };

@@ -1,6 +1,8 @@
 import { inngest, verifyEmail } from '@/lib/inngest';
 import { prisma } from '@/lib/prisma';
 
+import * as invitationService from '../service';
+
 export type InvitationProcessingEventArgs = {
   userId: string;
 };
@@ -14,28 +16,10 @@ export const invitationProcessingEvent = inngest.createFunction(
       where: { id: userId },
     });
 
-    const invitations = await prisma.invitation.findMany({
-      where: {
-        email: user.email,
-        status: 'ACCEPTED_WITHOUT_ACCOUNT',
-      },
+    await invitationService.convertAcceptedInvitationsToMemberships({
+      userId: user.id,
+      email: user.email,
     });
-
-    await prisma.$transaction([
-      prisma.invitation.deleteMany({
-        where: {
-          email: user.email,
-        },
-      }),
-      prisma.membership.createMany({
-        data: invitations.map((invitation) => ({
-          organizationId: invitation.organizationId,
-          userId: user.id,
-          membershipRole: 'MEMBER',
-          isActive: false,
-        })),
-      }),
-    ]);
 
     return { event, body: true };
   }

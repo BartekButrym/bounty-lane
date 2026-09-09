@@ -5,6 +5,8 @@ import { Separator } from '@/components/ui/separator';
 import { Attachments } from '@/features/attachments/components/attachments';
 import { Comments } from '@/features/comment/components/comments/comments';
 import { getComments } from '@/features/comment/queries/get-comments';
+import { ReferencedTickets } from '@/features/ticket/components/referenced-tickets';
+import { ReferencingTickets } from '@/features/ticket/components/referencing-tickets';
 import { TicketItem } from '@/features/ticket/components/ticket-item';
 import { getTicket } from '@/features/ticket/queries/get-ticket';
 import { homePath } from '@/path';
@@ -51,6 +53,8 @@ const TicketPage = async ({ params }: TicketPageProps) => {
               isOwner={ticket.isOwner}
             />
           }
+          referencedTickets={<ReferencedTickets ticketId={ticket.id} />}
+          referencingTickets={<ReferencingTickets ticketId={ticket.id} />}
           comments={
             <Comments
               ticketId={ticketId}

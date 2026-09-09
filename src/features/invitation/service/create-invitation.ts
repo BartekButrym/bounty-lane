@@ -3,11 +3,30 @@ import { emailInvitationPath } from '@/path';
 import { generateRandomToken, hashToken } from '@/utils/crypto';
 import { getBaseUrl } from '@/utils/url';
 
-export const generateInvitationLink = async (
-  invitedByUserId: string,
-  organizationId: string,
-  email: string
-) => {
+type CreateInvitationArgs = {
+  invitedByUserId: string;
+  organizationId: string;
+  email: string;
+};
+
+export const createInvitation = async ({
+  invitedByUserId,
+  organizationId,
+  email,
+}: CreateInvitationArgs) => {
+  const existingMembership = await prisma.membership.findFirst({
+    where: {
+      organizationId,
+      user: {
+        email,
+      },
+    },
+  });
+
+  if (existingMembership) {
+    throw new Error('User is already a member of this organization');
+  }
+
   await prisma.invitation.deleteMany({
     where: {
       email,
@@ -28,7 +47,6 @@ export const generateInvitationLink = async (
   });
 
   const pageUrl = getBaseUrl() + emailInvitationPath();
-  const emailInvitationLink = pageUrl + `/${tokenId}`;
 
-  return emailInvitationLink;
+  return pageUrl + `/${tokenId}`;
 };

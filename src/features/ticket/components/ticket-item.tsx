@@ -27,6 +27,8 @@ type TicketItemProps = {
   ticket: TicketWithMetadata;
   isDetail?: boolean;
   attachments?: React.ReactNode;
+  referencedTickets?: React.ReactNode;
+  referencingTickets?: React.ReactNode;
   comments?: React.ReactNode;
 };
 
@@ -34,6 +36,8 @@ export const TicketItem = async ({
   ticket,
   isDetail,
   attachments,
+  referencedTickets,
+  referencingTickets,
   comments,
 }: TicketItemProps) => {
   const detailButton = (
@@ -126,6 +130,8 @@ export const TicketItem = async ({
         </div>
       </div>
       {attachments}
+      {referencedTickets}
+      {referencingTickets}
       {comments}
     </div>
   );
