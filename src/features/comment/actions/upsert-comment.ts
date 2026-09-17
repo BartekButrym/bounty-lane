@@ -16,7 +16,7 @@ import { filesSchema } from '@/features/attachments/schema/file';
 import * as attachmentService from '@/features/attachments/service';
 import { getAuthOrRedirect } from '@/features/auth/queries/get-auth-or-redirect';
 import { isOwner } from '@/features/auth/utils/is-owner';
-import * as ticketData from '@/features/ticket/data';
+import * as ticketService from '@/features/ticket/service';
 import { prisma } from '@/lib/prisma';
 import { ticketPath } from '@/path';
 import { findTicketIdsFromText } from '@/utils/find-ids-from-text';
@@ -81,7 +81,7 @@ export const upsertComment = async (
       files: data.files,
     });
 
-    await ticketData.connectReferencedTickets(
+    await ticketService.connectReferencedTickets(
       ticketId,
       findTicketIdsFromText('tickets', data.content)
     );
