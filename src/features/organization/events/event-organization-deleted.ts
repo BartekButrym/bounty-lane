@@ -1,12 +1,12 @@
 import { deleteS3Prefix } from '@/lib/aws';
-import { deleteOrganizationFiles, inngest } from '@/lib/inngest';
+import { deleteOrganization, inngest } from '@/lib/inngest';
 
 export type OrganizationDeletedEventArgs = {
   organizationId: string;
 };
 
 export const organizationDeletedEvent = inngest.createFunction(
-  { id: 'organization-deleted', triggers: [deleteOrganizationFiles] },
+  { id: 'organization-deleted', triggers: [deleteOrganization] },
   async ({ event, step }) => {
     const { organizationId } = event.data;
 

@@ -4,6 +4,7 @@ import { AttachmentDeleteEventArgs } from '@/features/attachments/events/event-a
 import { EmailChangeEventArgs } from '@/features/auth/events/event-email-change';
 import { EmailVerificationEventArgs } from '@/features/auth/events/event-email-verification';
 import { InvitationCreateEventArgs } from '@/features/invitation/events/event-invitation-created';
+import { OrganizationCreatedEventArgs } from '@/features/organization/events/event-organization-created';
 import { OrganizationDeletedEventArgs } from '@/features/organization/events/event-organization-deleted';
 import { PasswordResetFunctionArgs } from '@/features/password/events/event-password-reset';
 import { TicketDeletedEventArgs } from '@/features/ticket/events/event-ticket-deleted';
@@ -30,7 +31,11 @@ export const deleteAttachment = eventType('app/attachment.deleted', {
   schema: staticSchema<AttachmentDeleteEventArgs>(),
 });
 
-export const deleteOrganizationFiles = eventType('app/organization.deleted', {
+export const createOrganization = eventType('app/organization.created', {
+  schema: staticSchema<OrganizationCreatedEventArgs>(),
+});
+
+export const deleteOrganization = eventType('app/organization.deleted', {
   schema: staticSchema<OrganizationDeletedEventArgs>(),
 });
 

@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 import { useAuth } from '@/features/auth/hooks/use-auth';
 import { cn } from '@/lib/utils';
-import { signInPath, signUpPath } from '@/path';
+import { pricingPath, signInPath, signUpPath } from '@/path';
 import { getActivePath } from '@/utils/get-active-path';
 
 import { navItems } from '../constants';
@@ -18,7 +18,7 @@ export const Sidebar = () => {
   const { activeIndex } = getActivePath(
     pathname,
     navItems.map((item) => item.href),
-    [signInPath(), signUpPath()]
+    [signInPath(), signUpPath(), pricingPath()]
   );
 
   const [isTransition, setTransition] = useState(false);

@@ -104,6 +104,20 @@ npm run email
 
 Opens a browser preview of the templates in `src/emails` (email verification, password reset, email change, welcome) without sending real messages.
 
+## Stripe — webhook secret
+
+`STRIPE_WEBHOOK_SECRET` is required for the app to verify events coming from Stripe (`src/app/api/stripe`).
+
+- **Development environment** — run the Stripe CLI event listener, which forwards Stripe events to your local `/api/stripe` route and prints a webhook signing secret to use as `STRIPE_WEBHOOK_SECRET` in `.env`:
+
+  ```bash
+  npm run stripe-event-listener
+  ```
+
+  Keep it running alongside `npm run dev` whenever you need to receive Stripe events locally (e.g. subscription created/updated).
+
+- **Production environment** — `STRIPE_WEBHOOK_SECRET` must be obtained from the Stripe Dashboard (webhook endpoint settings) instead, and set in the production environment's variables.
+
 ## Inngest — local dev server
 
 If `INNGEST_DEV=1` is set in `.env` or any `.env.*` file, the Inngest SDK sends

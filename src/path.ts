@@ -1,5 +1,7 @@
 export const homePath = () => '/';
 
+export const pricingPath = () => '/pricing';
+
 export const signUpPath = () => '/sign-up';
 export const signInPath = () => '/sign-in';
 
@@ -25,6 +27,8 @@ export const invitationsPath = (organizationId: string) =>
   `/organization/${organizationId}/invitations`;
 export const credentialsPath = (organizationId: string) =>
   `/organization/${organizationId}/credentials`;
+export const subscriptionPath = (organizationId: string) =>
+  `/organization/${organizationId}/subscription`;
 
 export const ticketsPath = () => '/tickets';
 export const ticketsByOrganizationPath = () => '/tickets/organization';

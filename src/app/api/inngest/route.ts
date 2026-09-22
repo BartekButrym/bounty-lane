@@ -5,6 +5,7 @@ import { emailChangeEvent } from '@/features/auth/events/event-email-change';
 import { emailVerificationEvent } from '@/features/auth/events/event-email-verification';
 import { invitationCreatedEvent } from '@/features/invitation/events/event-invitation-created';
 import { invitationProcessingEvent } from '@/features/invitation/events/event-invitation-processing';
+import { organizationCreatedEvent } from '@/features/organization/events/event-organization-created';
 import { organizationDeletedEvent } from '@/features/organization/events/event-organization-deleted';
 import { passwordResetFunction } from '@/features/password/events/event-password-reset';
 import { ticketDeletedEvent } from '@/features/ticket/events/event-ticket-deleted';
@@ -19,6 +20,7 @@ export const { GET, POST, PUT } = serve({
     invitationCreatedEvent,
     invitationProcessingEvent,
     attachmentDeletedEvent,
+    organizationCreatedEvent,
     organizationDeletedEvent,
     ticketDeletedEvent,
   ],
